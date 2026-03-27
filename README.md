@@ -26,7 +26,7 @@ Inspired by tools like Coolors, this project focuses on simplicity, interactivit
 Deploy via GitHub Pages:
 ```
 
-https://Drtxdt.github.io/wonderful-color/
+https://drtxdt.github.io/Wonderful-Color/
 
 ```
 ## Tech Stack

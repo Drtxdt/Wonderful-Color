@@ -24,7 +24,7 @@ Wonderful-Color 是一个轻量级的网页工具，用于生成和探索颜色�
 通过 GitHub Pages 部署：
 ```
 
-https://<你的用户名>.github.io/wonderful-color/
+https://drtxdt.github.io/Wonderful-Color/
 
 ```
 ## 技术栈
