@@ -26,7 +26,7 @@
     </div>
 
     <script>
-        const { createApp, ref } = Vue;
+        const { createApp, ref, watch } = Vue;
         createApp({
             setup() {
                 const colors = ref([
@@ -99,7 +99,12 @@
                     }
                 };
 
-                window.addEventListener('keydown', handleKeydown);
+                watch(colors, (newColors) => {
+                    const hexString = newColors.map(c => c.hex.replace('#', '')).join('-');
+                    window.history.replaceState(null, '', '#' + hexString);
+                }, { deep: true });
+
+                document.addEventListener('keydown', handleKeydown);
 
                 return { colors, refreshColors, getTextColor };
             }
