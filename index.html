@@ -22,7 +22,7 @@
                 </button>
             </div>
         </div>
-        <button @click="refreshColors">Refresh Colors</button>
+        <button @click="refreshColors" id="fresh">Refresh Colors</button>
     </div>
 
     <script>
@@ -133,7 +133,7 @@
 
         .content {
             text-align: center;
-            background: rgba(0, 0, 0, 0.3);
+            background: transparent;
             padding: 10px;
             border-radius: 8px;
             display: flex;
@@ -142,12 +142,22 @@
             gap: 10px;
         }
 
-        button {
+        button:not(#fresh) {
             margin-top: 8px;
             padding: 5px 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            background: transparent;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            justify-self: center;
+            transition: transform 0.2s;
+        }
+
+        button:not(#fresh):hover {
+            transform: scale(1.2);
         }
     </style>
 </body>
