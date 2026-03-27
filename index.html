@@ -6,15 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
     <div id="app">
         <div v-for="(color, index) in colors" :key="index" :style="{ backgroundColor: color.hex }" class="color-box">
-            <div class="content">
-                <span class="hex">{{ color.hex }}</span>
+            <div class="content" :style="{ color: getTextColor(color.hex) }">
+                <span class="hex">{{ color.hex.toUpperCase() }}</span>
                 <button @click="color.isLocked = !color.isLocked">
-                    {{ color.isLocked ? 'Unlock' : 'Lock' }}
+                    <i class="material-icons">
+                        {{ color.isLocked ? 'lock' : 'lock_open' }}
+                    </i>
                 </button>
             </div>
         </div>
@@ -47,6 +50,15 @@
                     }
                 }
 
+                function getTextColor(hex) {
+                    hex = hex.replace('#', '');
+                    const r = parseInt(hex.substring(0, 2), 16);
+                    const g = parseInt(hex.substring(2, 4), 16);    
+                    const b = parseInt(hex.substring(4, 6), 16);
+                    const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+                    return brightness > 128 ? 'black' : 'white';
+                }
+
                 const handleKeydown = (event) => {
                     if (event.code === 'Space') {
                         event.preventDefault();
@@ -56,7 +68,7 @@
 
                 window.addEventListener('keydown', handleKeydown);
 
-                return { colors, refreshColors };
+                return { colors, refreshColors, getTextColor };
             }
         }).mount('#app');
     </script>
@@ -83,10 +95,13 @@
 
         .content {
             text-align: center;
-            color: white;
             background: rgba(0, 0, 0, 0.3);
             padding: 10px;
             border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
         }
 
         button {
