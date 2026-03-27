@@ -10,7 +10,7 @@
 
 <body>
     <div id="app">
-        <div v-for="color in colors" :key="color" :style="{ backgroundColor: color }" class="color-box"></div>
+        <div v-for="color in colors" :key="color" :style="{ backgroundColor: color.hex }" class="color-box"></div>
         <button @click="refreshColors">Refresh Colors</button>
     </div>
 
@@ -19,18 +19,18 @@
         createApp({
             setup() {
                 const colors = ref([
-                    '#FF5733',
-                    '#33FF57',
-                    '#3357FF',
-                    '#F1C40F',
-                    '#8E44AD'
+                    {hex: '#FF5733', isLocked: false},
+                    {hex: '#33FF57', isLocked: false},
+                    {hex: '#3357FF', isLocked: false},
+                    {hex: '#F1C40F', isLocked: false},
+                    {hex: '#8E44AD', isLocked: false}
                 ])
 
                 generateColors = (num) => {
                     const colors = [];
                     for (let i = 0; i < num; i++) {
                         const color = '#' + Math.floor(Math.random() * 16777215).toString(16);
-                        colors.push(color);
+                        colors.push({ hex: color, isLocked: false });
                     }
                     return colors;
                 }
@@ -40,7 +40,7 @@
                 }
 
                 const handleKeydown = (event) => {
-                    if (event.key === ' ') {
+                    if (event.code === 'Space') {
                         event.preventDefault();
                         refreshColors();
                     }
