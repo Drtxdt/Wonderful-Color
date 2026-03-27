@@ -7,6 +7,7 @@
     <title>Document</title>
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chroma-js/2.4.2/chroma.min.js"></script>
 </head>
 
 <body>
@@ -37,15 +38,47 @@
                 ])
 
                 function getRandomHex() {
-                    return '#' + Math.floor(Math.random() * 16777215).toString(16);
+                    return chroma.random().hex();
                 }
 
                 function refreshColors() {
+                    const lockedColors = colors.value.filter(c => c.isLocked);
+                    let scale;
+
+                    if (lockedColors.length === 0) {
+                        let randomFlag = Math.random();
+                        if(randomFlag <= 0.5)
+                        {
+                            const base = chroma.random();
+                            const complement = base.set('hsl.h', (base.get('hsl.h') + 180) % 360);
+                            scale = chroma.scale([base, complement]).mode('lch');
+                        }
+                        else
+                        {
+                            const color1 = chroma.random();
+                            const color2 = chroma.random();
+                            while (chroma.distance(color1, color2) < 60) {
+                                color2 = chroma.random();
+                            }
+                            scale = chroma.scale([color1, color2]).mode('lch');
+                        }
+
+                        colors.value = colors.value.map((c, i) => ({
+                            ...c,
+                            hex: scale(i / (colors.value.length - 1)).hex()
+                        }))
+                        return
+                    }
+
+                    const baseColor = lockedColors[0].hex
+                    const [h, s, l] = chroma(baseColor).hsl()
+
                     for (let i = 0; i < colors.value.length; i++) {
                         if (!colors.value[i].isLocked) {
-                            let before = colors.value[i].hex;
-                            colors.value[i].hex = getRandomHex();
-                            if (before == colors.value[i].hex) colors.value[i].hex = getRandomHex();
+                            const newHue = (h + (Math.random() * 40 - 40) + 360) % 360
+                            const newS = Math.min(1, Math.max(0, s + (Math.random() * 0.2 - 0.1)))
+                            const newL = Math.min(1, Math.max(0, l + (Math.random() * 0.2 - 0.1)))
+                            colors.value[i].hex = chroma.hsl(newHue, newS, newL).hex()
                         }
                     }
                 }
@@ -53,7 +86,7 @@
                 function getTextColor(hex) {
                     hex = hex.replace('#', '');
                     const r = parseInt(hex.substring(0, 2), 16);
-                    const g = parseInt(hex.substring(2, 4), 16);    
+                    const g = parseInt(hex.substring(2, 4), 16);
                     const b = parseInt(hex.substring(4, 6), 16);
                     const brightness = (r * 299 + g * 587 + b * 114) / 1000;
                     return brightness > 128 ? 'black' : 'white';
