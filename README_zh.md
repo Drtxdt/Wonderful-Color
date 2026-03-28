@@ -93,4 +93,4 @@ https://drtxdt.github.io/Wonderful-Color/
 
 ## 许可证
 
-MIT
+Apache-2.0
