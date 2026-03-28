@@ -92,4 +92,4 @@ Text color is chosen by contrast ratio:
 
 ## License
 
-MIT
+Apache-2.0
