@@ -1,0 +1,48 @@
+.color-box {
+	height: 100%;
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.content {
+	text-align: center;
+	background: transparent;
+	padding: 10px;
+	border-radius: 8px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+
+.hex {
+	font-weight: 600;
+	letter-spacing: 0.06em;
+}
+
+.lock-btn {
+	margin-top: 8px;
+	padding: 5px 10px;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	background: transparent;
+	color: inherit;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	transition: transform 0.2s;
+}
+
+.lock-btn:hover {
+	transform: scale(1.2);
+}
+
+.material-icons {
+	font-size: 22px;
+	line-height: 1;
+	-webkit-user-select: none;
+	user-select: none;
+}

@@ -31,9 +31,8 @@ https://drtxdt.github.io/Wonderful-Color/
 ```
 ## Tech Stack
 
-- Vue 3 (Composition API via CDN)
+- Vue 3 (Composition API)
 - chroma.js (color manipulation and interpolation)
-- Vanilla HTML / CSS / JavaScript
 
 ## How It Works
 

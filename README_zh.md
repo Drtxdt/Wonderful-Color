@@ -31,7 +31,6 @@ https://drtxdt.github.io/Wonderful-Color/
 
 - Vue 3（Composition API）
 - chroma.js（颜色计算与插值）
-- 原生 HTML / CSS / JavaScript
 
 ## 实现原理
 

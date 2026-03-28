@@ -1,0 +1,12 @@
+#fresh {
+	position: fixed;
+	left: 50%;
+	bottom: 24px;
+	transform: translateX(-50%);
+	padding: 10px 14px;
+	border: none;
+	border-radius: 8px;
+	cursor: pointer;
+	background: #111;
+	color: #fff;
+}
