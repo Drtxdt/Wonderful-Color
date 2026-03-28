@@ -1,7 +1,7 @@
 <script setup>
 import { getTextColor } from "../utils/color";
 
-const props = defineProps({
+const { color } = defineProps({
   color: {
     type: Object,
     required: true

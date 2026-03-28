@@ -14,12 +14,17 @@ Inspired by tools like Coolors, this project focuses on simplicity, interactivit
 
 - Generate color palettes with a single click or by pressing the Space key
 - Lock specific colors to keep them unchanged during regeneration
-- Intelligent palette generation:
-  - Gradient or complementary colors when no colors are locked
-  - Harmonized colors based on locked hues
-- Automatic text color adjustment using brightness (YIQ algorithm)
+- Dual generation modes:
+  - `Smart`: multi-strategy palette generation with scoring-based selection
+  - `Gradient`: smooth interpolation mode inspired by classic Coolors-style flow
+- Style profiles for generation (`Auto`, `Soft`, `Vivid`)
+- Contrast-priority option to enforce stronger color separation
+- Lock-aware generation:
+  - Locked slots are treated as hard constraints
+  - Unlocked slots are optimized around locked anchors
+- Automatic text color adjustment using contrast ratio (black/white best choice)
 - Responsive full-screen layout with vertical color strips
-- Copy-friendly color display (hex values visible)
+- URL hash synchronization for palette sharing and restore
 
 ## Demo
 
@@ -38,28 +43,36 @@ https://drtxdt.github.io/Wonderful-Color/
 
 ### Palette Generation
 
-- When no colors are locked:
-  - Randomly generates either:
-    - A gradient scale between two colors
-    - A complementary color pair
-  - Uses `chroma.scale(...).mode('lch')` for perceptually smooth transitions
+The project uses two coexisting generation modes:
 
-- When colors are locked:
-  - Uses the first locked color as a base
-  - Generates new colors by slightly varying:
-    - Hue (±20° range)
-    - Saturation and lightness (small random offsets)
+- Smart mode:
+  - Builds multiple candidate palettes using harmony strategies:
+    - analogous
+    - complementary
+    - split-complementary
+    - triadic
+    - tetradic
+    - monochrome
+    - hybrid
+  - Scores each candidate by:
+    - minimum pairwise color distance
+    - hue distribution balance
+    - lightness/saturation spread
+    - readability penalty
+  - Selects the best-scored candidate as output
+
+- Gradient mode:
+  - No locks: generates a smooth palette from either complementary endpoints or two random distant colors
+  - With locks: performs segmented LCH interpolation between locked anchors and fills unlocked slots continuously
+  - Applies lock constraints after generation and then optimizes unlocked slots
+
+Both modes use `chroma.scale(...).mode('lch')` and lock-aware post-optimization.
 
 ### Contrast Handling
 
-Text color is determined using the YIQ brightness formula:
-```
-
-Y = (R * 299 + G * 587 + B * 114) / 1000
-
-```
-- Y ≥ 128 → black text
-- Y < 128 → white text
+Text color is chosen by contrast ratio:
+- Compare `contrast(background, black)` and `contrast(background, white)`
+- Use whichever gives stronger readability
 
 ## Usage
 
@@ -71,11 +84,11 @@ Y = (R * 299 + G * 587 + B * 114) / 1000
 ## Future Improvements
 
 - Copy color to clipboard on click
-- Support multiple locked colors as gradient anchors
 - Export palette (JSON / CSS variables)
 - Drag-and-drop reordering
-- Keyboard shortcuts for advanced control
-- Migration to Vite + component-based architecture
+- Keyboard shortcuts for mode/style switching
+- Seeded random mode for fully reproducible palettes
+- Palette history and favorites management
 
 ## License
 
